@@ -138,7 +138,7 @@ void AExperimentalGame3Character::SetupPlayerInputComponent(class UInputComponen
 	PlayerInputComponent->BindAxis("LookUpRate", this, &AExperimentalGame3Character::LookUpAtRate);
 }
 
-void AExperimentalGame3Character::OnFire()
+void AExperimentalGame3Character::OnFire_Implementation()
 {
 	// try and fire a projectile
 	if (ProjectileClass != NULL)

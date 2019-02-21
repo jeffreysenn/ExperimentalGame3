@@ -6,6 +6,8 @@
 #include "Components/ActorComponent.h"
 #include "NervousComponent.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FNervousDelegate, int32, NervousIndex);
+
 UENUM(BlueprintType)
 enum class ENervousEnum :uint8
 {
@@ -15,6 +17,7 @@ enum class ENervousEnum :uint8
 	NE_Heavy, //+invert axis
 	NE_Extreme //+running away
 };
+
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class EXPERIMENTALGAME3_API UNervousComponent : public UActorComponent
@@ -59,7 +62,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void IncreaseNervousPercent(float DeltaPercent);
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintPure)
 	FORCEINLINE float GetNervousPercent() { return NervousPercent; }
 
 	UFUNCTION(BlueprintCallable)
@@ -67,4 +70,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void TryNotFacing(AActor* ActorToAvoid);
+
+	UPROPERTY(BlueprintAssignable, Category = "Delegates")
+	FNervousDelegate OnNervousChanged;
 };

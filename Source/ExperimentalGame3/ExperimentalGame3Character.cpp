@@ -11,6 +11,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "MotionControllerComponent.h"
 #include "XRMotionControllerBase.h" // for FXRMotionControllerBase::RightHandSourceId
+#include "Kismet/KismetMathLibrary.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 
@@ -154,15 +155,33 @@ void AExperimentalGame3Character::OnFire_Implementation()
 			}
 			else
 			{
-				const FRotator SpawnRotation = GetControlRotation();
-				// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
-				const FVector SpawnLocation = ((FP_MuzzleLocation != nullptr) ? FP_MuzzleLocation->GetComponentLocation() : GetActorLocation()) + SpawnRotation.RotateVector(GunOffset);
 
 				//Set Spawn Collision Handling Override
 				FActorSpawnParameters ActorSpawnParams;
 				ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
 
+				FRotator SpawnRotation = GetControlRotation();
+				// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
+				const FVector SpawnLocation = ((FP_MuzzleLocation != nullptr) ? FP_MuzzleLocation->GetComponentLocation() : GetActorLocation()) + SpawnRotation.RotateVector(GunOffset);
 				// spawn the projectile at the muzzle
+
+				// Find the crosshair position in pixel coordinates
+				int32 ViewportSizeX, ViewportSizeY;
+				GetWorld()->GetFirstPlayerController()->GetViewportSize(ViewportSizeX, ViewportSizeY);
+				auto ScreenLocation = FVector2D(ViewportSizeX / 2, ViewportSizeY / 2);
+
+				FVector CameraWorldLocation;
+				FVector LookDirection;
+				// "De-project" the screen position of the crosshair to a world direction
+				if (GetWorld()->GetFirstPlayerController()->DeprojectScreenPositionToWorld(
+					ScreenLocation.X,
+					ScreenLocation.Y,
+					CameraWorldLocation,
+					LookDirection
+				))
+				{
+					SpawnRotation = FRotationMatrix::MakeFromX(LookDirection).Rotator();
+				}
 				World->SpawnActor<AExperimentalGame3Projectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
 			}
 		}

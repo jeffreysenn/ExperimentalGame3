@@ -36,25 +36,56 @@ void UNervousComponent::ComputeNervousState(float DeltaTime)
 {
 	IncreaseNervousPercent(-NPNaturalDecreaseSpeed * DeltaTime);
 
-	if (NervousPercent < LittleThreshold)
+	switch (NervousState)
 	{
-		NervousState = ENervousEnum::NE_Clear;
-	}
-	else if(NervousPercent < MediumThreshold)
-	{
-		NervousState = ENervousEnum::NE_Little;
-	}
-	else if (NervousPercent < HeavyThreshold)
-	{
-		NervousState = ENervousEnum::NE_Medium;
-	}
-	else if (NervousPercent < ExtremeThreshold)
-	{
-		NervousState = ENervousEnum::NE_Heavy;
-	}
-	else
-	{
-		NervousState = ENervousEnum::NE_Extreme;
+	case ENervousEnum::NE_Clear:
+		if (NervousPercent > LittleThreshold)
+		{
+			NervousPercent = MediumThreshold;
+			NervousState = ENervousEnum::NE_Little;
+		}
+		break;
+	case ENervousEnum::NE_Little:
+		if (NervousPercent > MediumThreshold)
+		{
+			NervousPercent = HeavyThreshold;
+			NervousState = ENervousEnum::NE_Medium;
+		}
+		else if(NervousPercent <= LittleThreshold)
+		{
+			NervousState = ENervousEnum::NE_Clear;
+		}
+		break;
+	case ENervousEnum::NE_Medium:
+		if (NervousPercent > HeavyThreshold)
+		{
+			NervousPercent = ExtremeThreshold;
+			NervousState = ENervousEnum::NE_Heavy;
+		}
+		else if (NervousPercent <= MediumThreshold)
+		{
+			NervousState = ENervousEnum::NE_Little;
+		}
+		break;
+	case ENervousEnum::NE_Heavy:
+		if (NervousPercent > ExtremeThreshold)
+		{
+			NervousPercent = 100;
+			NervousState = ENervousEnum::NE_Extreme;
+		}
+		else if (NervousPercent <= HeavyThreshold)
+		{
+			NervousState = ENervousEnum::NE_Heavy;
+		}
+		break;
+	case ENervousEnum::NE_Extreme:
+		if (NervousPercent <= ExtremeThreshold)
+		{
+			NervousState = ENervousEnum::NE_Heavy;
+		}
+		break;
+	default:
+		break;
 	}
 }
 

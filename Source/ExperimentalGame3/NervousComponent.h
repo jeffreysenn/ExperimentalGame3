@@ -36,7 +36,7 @@ protected:
 	ENervousEnum NervousState = ENervousEnum::NE_Clear;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
-	float NPNaturalDecreaseSpeed = 1;
+	float NPNaturalIncreaseSpeed = 1;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	float LittleThreshold = 8;

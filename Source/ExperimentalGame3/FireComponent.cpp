@@ -3,6 +3,7 @@
 #include "FireComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "InteractiveProp.h"
+#include "Components/PrimitiveComponent.h"
 
 
 // Sets default values for this component's properties
@@ -50,23 +51,40 @@ void UFireComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorC
 
 void UFireComponent::Fire()
 {
-	OnFireExecuted.Broadcast(IsAimingCorrect());
+	if (IsAimingCorrect())
+	{
+		OnFireExecuted.Broadcast(true);
+		InteractiveProp->Destroy();
+	}
+	else
+	{
+		OnFireExecuted.Broadcast(false);
+		if (InteractiveProp)
+		{
+			auto HitComponent = OutHit->GetComponent();
+			if (HitComponent)
+			{
+				HitComponent->AddForce(FVector(0.0f, 0.0f, ForceAmount));
+			}
+		}
+	}
 }
 
 bool UFireComponent::IsAimingCorrect()
 {
 	bool bIsAmingCorrect = false;
+	InteractiveProp = nullptr;
+
 	FVector LookDirection;
 	FVector CameraWorldLocation;
 	// "De-project" the screen position of the crosshair to a world direction
 	if (GetLookDirection(LookDirection, CameraWorldLocation))
 	{
-		FHitResult OutHit;
 		FCollisionQueryParams Params;
 		FCollisionResponseParams  ResponseParam;
-		if (GetWorld()->LineTraceSingleByChannel(OutHit, CameraWorldLocation, CameraWorldLocation + LookDirection * 9999999, ECollisionChannel::ECC_Visibility, Params, ResponseParam))
+		if (GetWorld()->LineTraceSingleByChannel(*OutHit, CameraWorldLocation, CameraWorldLocation + LookDirection * 9999999, ECollisionChannel::ECC_Visibility, Params, ResponseParam))
 		{
-			auto InteractiveProp = Cast<AInteractiveProp>(OutHit.GetActor());
+			InteractiveProp = Cast<AInteractiveProp>(OutHit->GetActor());
 			if (InteractiveProp)
 			{
 				bIsAmingCorrect = InteractiveProp->bShouldHit;

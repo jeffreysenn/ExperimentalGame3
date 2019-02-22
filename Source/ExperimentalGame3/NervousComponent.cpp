@@ -34,21 +34,21 @@ void UNervousComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 
 void UNervousComponent::ComputeNervousState(float DeltaTime)
 {
-	IncreaseNervousPercent(-NPNaturalDecreaseSpeed * DeltaTime);
+	IncreaseNervousPercent(NPNaturalIncreaseSpeed * DeltaTime);
 
 	switch (NervousState)
 	{
 	case ENervousEnum::NE_Clear:
 		if (NervousPercent > LittleThreshold)
 		{
-			NervousPercent = MediumThreshold;
+			//NervousPercent = MediumThreshold;
 			NervousState = ENervousEnum::NE_Little;
 		}
 		break;
 	case ENervousEnum::NE_Little:
 		if (NervousPercent > MediumThreshold)
 		{
-			NervousPercent = HeavyThreshold;
+			//NervousPercent = HeavyThreshold;
 			NervousState = ENervousEnum::NE_Medium;
 		}
 		else if(NervousPercent <= LittleThreshold)
@@ -59,7 +59,7 @@ void UNervousComponent::ComputeNervousState(float DeltaTime)
 	case ENervousEnum::NE_Medium:
 		if (NervousPercent > HeavyThreshold)
 		{
-			NervousPercent = ExtremeThreshold;
+			//NervousPercent = ExtremeThreshold;
 			NervousState = ENervousEnum::NE_Heavy;
 		}
 		else if (NervousPercent <= MediumThreshold)
@@ -70,7 +70,7 @@ void UNervousComponent::ComputeNervousState(float DeltaTime)
 	case ENervousEnum::NE_Heavy:
 		if (NervousPercent > ExtremeThreshold)
 		{
-			NervousPercent = 100;
+			//NervousPercent = 100;
 			NervousState = ENervousEnum::NE_Extreme;
 		}
 		else if (NervousPercent <= HeavyThreshold)

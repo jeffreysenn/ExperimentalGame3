@@ -6,7 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "FireComponent.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FFireDelegate, bool, bIsAmingCorrect);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FFireDelegate, bool, bCorrect);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class EXPERIMENTALGAME3_API UFireComponent : public UActorComponent
@@ -21,8 +21,16 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FFireDelegate OnFireExecuted;
 
+	UPROPERTY(EditDefaultsOnly)
+	float ForceAmount = 20000;
+
 protected:
 	bool bCanCollect = false;
+
+
+	struct FHitResult* OutHit = new struct FHitResult;
+	class AInteractiveProp* InteractiveProp = nullptr;
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;

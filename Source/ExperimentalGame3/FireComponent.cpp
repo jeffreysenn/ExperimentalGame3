@@ -46,7 +46,13 @@ void UFireComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorC
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	// ...
+	if (IsAimingCorrect())
+	{
+		if (InteractiveProp)
+		{
+			
+		}
+	}
 }
 
 void UFireComponent::Fire()

@@ -26,6 +26,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TArray<FString> MissionTexts;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<class AInteractiveProp*> TargetProps;
+
 	int32 CurrentMissionIndex = 0;
 
 protected:

@@ -32,3 +32,12 @@ void AInteractiveProp::Tick(float DeltaTime)
 
 }
 
+void AInteractiveProp::SetActivateProp(bool bShouldActivate)
+{
+	bShouldHit = bShouldActivate;
+}
+
+void AInteractiveProp::HighlightSelf()
+{
+}
+

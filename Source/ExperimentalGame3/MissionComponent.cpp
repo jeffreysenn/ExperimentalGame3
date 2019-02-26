@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "MissionComponent.h"
+#include "InteractiveProp.h"
 
 // Sets default values for this component's properties
 UMissionComponent::UMissionComponent()
@@ -18,7 +19,13 @@ void UMissionComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
+	if (CurrentMissionIndex < TargetProps.Num())
+	{
+		if (TargetProps[CurrentMissionIndex])
+		{
+			TargetProps[CurrentMissionIndex]->SetActivateProp(true);
+		}
+	}
 	
 }
 
@@ -36,6 +43,13 @@ void UMissionComponent::NextMission()
 	if (CurrentMissionIndex + 1 < MissionTexts.Num())
 	{
 		CurrentMissionIndex += 1;
+		if (CurrentMissionIndex < TargetProps.Num())
+		{
+			if (TargetProps[CurrentMissionIndex])
+			{
+				TargetProps[CurrentMissionIndex]->SetActivateProp(true);
+			}
+		}
 	}
 	else
 	{

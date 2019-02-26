@@ -16,7 +16,7 @@ public:
 	AInteractiveProp();
 
 public:
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(VisibleAnywhere)
 	bool bShouldHit = false;
 
 protected:
@@ -42,5 +42,11 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	UFUNCTION(BlueprintCallable)
+	void SetActivateProp(bool bShouldActivate);
+
+	UFUNCTION(BlueprintCallable)
+	void HighlightSelf();
 
 };

@@ -32,7 +32,16 @@ void UTimerComponent::BeginPlay()
 void UTimerComponent::IncreaseCurrentTime(float DeltaTime)
 {
 	if (!bIsActive) { return; }
-	CurrentTime = (CurrentTime + DeltaTime < MaxTime) ? CurrentTime + DeltaTime : MaxTime;
+	if (CurrentTime == MaxTime) { return; }
+	if (CurrentTime + DeltaTime < MaxTime)
+	{
+		CurrentTime = CurrentTime + DeltaTime;
+	}
+	else
+	{
+		CurrentTime = MaxTime;
+		OnTimeUp.Broadcast();
+	}
 }
 
 

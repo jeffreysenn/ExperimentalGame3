@@ -6,6 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "TimerComponent.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FTimerCompDelegate);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class EXPERIMENTALGAME3_API UTimerComponent : public UActorComponent
@@ -16,7 +17,9 @@ public:
 	// Sets default values for this component's properties
 	UTimerComponent();
 
-
+public:
+	UPROPERTY(BlueprintAssignable)
+	FTimerCompDelegate OnTimeUp;
 protected:
 	UPROPERTY(EditAnywhere)
 	float MaxTime = 60;

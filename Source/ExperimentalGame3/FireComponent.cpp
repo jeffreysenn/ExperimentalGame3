@@ -64,7 +64,8 @@ void UFireComponent::Fire()
 			auto HitComponent = OutHit->GetComponent();
 			if (HitComponent)
 			{
-				HitComponent->AddForce(FVector(0.0f, 0.0f, ForceAmount));
+				FVector HitDirection = -OutHit->ImpactNormal;
+				HitComponent->AddForce(HitDirection*ForceAmount);
 			}
 		}
 	}

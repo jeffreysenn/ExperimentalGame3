@@ -22,7 +22,7 @@ public:
 	FFireDelegate OnFireExecuted;
 
 	UPROPERTY(EditDefaultsOnly)
-	float ForceAmount = 20000;
+	float ForceAmount = 200000;
 
 protected:
 	bool bCanCollect = false;

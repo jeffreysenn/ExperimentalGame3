@@ -83,7 +83,7 @@ void UNervousComponent::ComputeNervousState(float DeltaTime)
 		{
 			NervousState = ENervousEnum::NE_Heavy;
 		}
-		else
+		else if(NervousPercent > 100)
 		{
 			NervousState = ENervousEnum::NE_Lost;
 		}
@@ -95,6 +95,9 @@ void UNervousComponent::ComputeNervousState(float DeltaTime)
 
 void UNervousComponent::IncreaseNervousPercent(float DeltaPercent)
 {
+	if (!bIsActive) { return; }
+
+
 	float NextNervousPercent = NervousPercent + DeltaPercent;
 	if (NervousPercent > 100)
 	{
@@ -110,6 +113,7 @@ void UNervousComponent::IncreaseNervousPercent(float DeltaPercent)
 	}
 }
 
-void UNervousComponent::TryNotFacing(AActor * ActorToAvoid)
+void UNervousComponent::SetNervousActive(bool NewActive)
 {
+	bIsActive = NewActive;
 }

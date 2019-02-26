@@ -30,6 +30,8 @@ public:
 	UNervousComponent();
 
 public:
+	UPROPERTY(BlueprintAssignable, Category = "Delegates")
+	FNervousDelegate OnNervousChanged;
 
 protected:
 	UPROPERTY(EditAnywhere, Category = "Setup")
@@ -52,6 +54,8 @@ protected:
 
 	ENervousEnum NervousState = ENervousEnum::NE_Clear;
 
+	bool bIsActive = true;
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -66,14 +70,11 @@ public:
 	void IncreaseNervousPercent(float DeltaPercent);
 
 	UFUNCTION(BlueprintPure)
-	FORCEINLINE float GetNervousPercent() { return NervousPercent; }
+	FORCEINLINE float GetNervousPercent() const { return NervousPercent; } 
 
 	UFUNCTION(BlueprintCallable)
-	FORCEINLINE ENervousEnum GetNervousState() { return NervousState; }
+	FORCEINLINE ENervousEnum GetNervousState() const { return NervousState; } 
 
 	UFUNCTION(BlueprintCallable)
-	void TryNotFacing(AActor* ActorToAvoid);
-
-	UPROPERTY(BlueprintAssignable, Category = "Delegates")
-	FNervousDelegate OnNervousChanged;
+	void SetNervousActive(bool NewActive);
 };

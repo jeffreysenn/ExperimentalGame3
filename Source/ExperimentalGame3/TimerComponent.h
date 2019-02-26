@@ -27,6 +27,8 @@ protected:
 	UPROPERTY(EditAnywhere)
 	float TimerTickRate = 1;
 
+	bool bIsActive = true;
+
 private:
 	float CurrentTime = 0;
 
@@ -42,4 +44,7 @@ public:
 
 	UFUNCTION(BlueprintPure)
 	FORCEINLINE float GetTimerPercent() { return CurrentTime / MaxTime; }
+
+	UFUNCTION(BlueprintCallable)
+	void SetTimerActive(bool NewActive);
 };

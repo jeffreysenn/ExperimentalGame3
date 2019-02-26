@@ -31,6 +31,7 @@ void UTimerComponent::BeginPlay()
 
 void UTimerComponent::IncreaseCurrentTime(float DeltaTime)
 {
+	if (!bIsActive) { return; }
 	CurrentTime = (CurrentTime + DeltaTime < MaxTime) ? CurrentTime + DeltaTime : MaxTime;
 }
 
@@ -41,5 +42,10 @@ void UTimerComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	// ...
+}
+
+void UTimerComponent::SetTimerActive(bool NewActive)
+{
+	bIsActive = NewActive;
 }
 

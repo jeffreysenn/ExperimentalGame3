@@ -17,15 +17,16 @@ public:
 	UTimerComponent();
 
 
-public:
-	UPROPERTY(EditDefaultsOnly)
+protected:
+	UPROPERTY(EditAnywhere)
 	float MaxTime = 60;
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditAnywhere)
 	float TimeScale = 1;
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditAnywhere)
 	float TimerTickRate = 1;
+
 private:
 	float CurrentTime = 0;
 

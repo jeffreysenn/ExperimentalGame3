@@ -16,12 +16,14 @@ class EXPERIMENTALGAME3_API UMissionComponent : public UActorComponent
 public:	
 	// Sets default values for this component's properties
 	UMissionComponent();
+
 public:
 	UPROPERTY(BlueprintAssignable)
 	FMissionDelegate OnMissionCompleted;
 
+
 protected:
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TArray<FString> MissionTexts;
 
 	int32 CurrentMissionIndex = 0;

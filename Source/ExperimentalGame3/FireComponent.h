@@ -18,13 +18,14 @@ public:
 	UFireComponent();
 
 public:
+
+protected:
 	UPROPERTY(BlueprintAssignable)
 	FFireDelegate OnFireExecuted;
 
-	UPROPERTY(EditDefaultsOnly)
-	float ForceAmount = 200000;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float ForceAmount = 2000000;	
 
-protected:
 	bool bCanCollect = false;
 
 

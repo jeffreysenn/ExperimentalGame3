@@ -83,6 +83,10 @@ void UNervousComponent::ComputeNervousState(float DeltaTime)
 		{
 			NervousState = ENervousEnum::NE_Heavy;
 		}
+		else
+		{
+			NervousState = ENervousEnum::NE_Lost;
+		}
 		break;
 	default:
 		break;

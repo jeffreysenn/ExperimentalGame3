@@ -15,7 +15,8 @@ enum class ENervousEnum :uint8
 	NE_Little, //+camera shake
 	NE_Medium, //+camera turning
 	NE_Heavy, //+invert axis
-	NE_Extreme //+running away
+	NE_Extreme, //+running away
+	NE_Lost
 };
 
 
@@ -31,24 +32,26 @@ public:
 public:
 
 protected:
-	UPROPERTY(VisibleAnywhere)
-	float NervousPercent = 0;
-	ENervousEnum NervousState = ENervousEnum::NE_Clear;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	UPROPERTY(EditAnywhere, Category = "Setup")
 	float NPNaturalIncreaseSpeed = 1;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Setup")
-	float LittleThreshold = 8;
+	UPROPERTY(EditAnywhere, Category = "Setup")
+	float LittleThreshold = 20;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Setup")
-	float MediumThreshold = 16;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Setup")
+	float MediumThreshold = 40;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Setup")
-	float HeavyThreshold = 24;
+	UPROPERTY(EditAnywhere, Category = "Setup")
+	float HeavyThreshold = 60;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Setup")
-	float ExtremeThreshold = 32;
+	UPROPERTY(EditAnywhere, Category = "Setup")
+	float ExtremeThreshold = 80;
+
+	UPROPERTY(VisibleAnywhere)
+	float NervousPercent = 0;
+
+	ENervousEnum NervousState = ENervousEnum::NE_Clear;
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;

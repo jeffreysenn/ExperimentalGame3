@@ -10,7 +10,7 @@ UMissionComponent::UMissionComponent()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 
-	MissionTexts.Add("Mission 0");
+	MissionTexts.Add("");
 }
 
 

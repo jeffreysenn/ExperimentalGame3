@@ -6,6 +6,37 @@
 #include "Components/ActorComponent.h"
 #include "MissionComponent.generated.h"
 
+USTRUCT(BlueprintType)
+struct FMissionDetail
+{
+	GENERATED_BODY();
+
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mission")
+	FString MissionString;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mission")
+	class AInteractiveProp* PropToClick;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mission")
+	class USoundBase* SoundToPlay;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mission")
+	class AActor* SoundOwningActor;
+
+
+public:
+	FMissionDetail()
+	{
+		MissionString = FString();
+		PropToClick = nullptr;
+		SoundToPlay = nullptr;
+		SoundOwningActor = nullptr;
+	}
+
+};
+
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FMissionDelegate);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -24,12 +55,9 @@ public:
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<FString> MissionTexts;
+	TArray<FMissionDetail> Missions;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<class AInteractiveProp*> TargetProps;
-
-	int32 CurrentMissionIndex = 0;
+	int32 CurrentMissionIndex = -1;
 
 protected:
 	// Called when the game starts
@@ -42,6 +70,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void NextMission();
 
-	UFUNCTION(BlueprintCallable)
-	FORCEINLINE FString GetCurrentMissionText() { return MissionTexts[CurrentMissionIndex]; }
+	UFUNCTION(BlueprintPure)
+	FString GetCurrentMissionText() const;
 };

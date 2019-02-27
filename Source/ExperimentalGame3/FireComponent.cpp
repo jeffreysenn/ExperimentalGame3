@@ -4,6 +4,8 @@
 #include "Kismet/GameplayStatics.h"
 #include "InteractiveProp.h"
 #include "Components/PrimitiveComponent.h"
+#include "Components/SpotLightComponent.h"
+
 
 
 // Sets default values for this component's properties
@@ -46,13 +48,6 @@ void UFireComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorC
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	if (IsAimingCorrect())
-	{
-		if (InteractiveProp)
-		{
-			
-		}
-	}
 }
 
 void UFireComponent::Fire()
@@ -60,12 +55,27 @@ void UFireComponent::Fire()
 	if (IsAimingCorrect())
 	{
 		OnFireExecuted.Broadcast(true);
-		InteractiveProp->Destroy();
+		if (InteractiveProp->bShouldDestroyAfterInteraction)
+		{
+			InteractiveProp->Destroy();
+		}
+		else
+		{
+			auto Comp = InteractiveProp->GetComponentByClass(UPointLightComponent::StaticClass());
+			if (Comp)
+			{
+				auto PointLightComp = Cast<UPointLightComponent>(Comp);
+				if (PointLightComp)
+				{
+					PointLightComp->SetVisibility(false);
+				}
+			}
+		}
 	}
 	else
 	{
 		OnFireExecuted.Broadcast(false);
-		if (InteractiveProp)
+		if (InteractiveProp && InteractiveProp->bShouldDestroyAfterInteraction)
 		{
 			auto HitComponent = OutHit->GetComponent();
 			if (HitComponent)
@@ -89,7 +99,7 @@ bool UFireComponent::IsAimingCorrect()
 	{
 		FCollisionQueryParams Params;
 		FCollisionResponseParams  ResponseParam;
-		if (GetWorld()->LineTraceSingleByChannel(*OutHit, CameraWorldLocation, CameraWorldLocation + LookDirection * 9999999, ECollisionChannel::ECC_Visibility, Params, ResponseParam))
+		if (GetWorld()->LineTraceSingleByChannel(*OutHit, CameraWorldLocation, CameraWorldLocation + LookDirection * RayCastRange, ECollisionChannel::ECC_Visibility, Params, ResponseParam))
 		{
 			InteractiveProp = Cast<AInteractiveProp>(OutHit->GetActor());
 			if (InteractiveProp)

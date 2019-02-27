@@ -19,8 +19,12 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	bool bShouldHit = false;
 
+	UPROPERTY(EditAnywhere)
+	bool bShouldDestroyAfterInteraction = true;
+
 protected:
 	class UNervousComponent* PlayerNervousComp;
+
 
 protected:
 	// Called when the game starts or when spawned

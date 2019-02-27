@@ -24,7 +24,10 @@ protected:
 	FFireDelegate OnFireExecuted;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float ForceAmount = 2000000;	
+	float ForceAmount = 20000000;	
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float RayCastRange = 600;
 
 	bool bCanCollect = false;
 

@@ -55,22 +55,6 @@ void UFireComponent::Fire()
 	if (IsAimingCorrect())
 	{
 		OnFireExecuted.Broadcast(true);
-		if (InteractiveProp->bShouldDestroyAfterInteraction)
-		{
-			InteractiveProp->Destroy();
-		}
-		else
-		{
-			auto Comp = InteractiveProp->GetComponentByClass(UPointLightComponent::StaticClass());
-			if (Comp)
-			{
-				auto PointLightComp = Cast<UPointLightComponent>(Comp);
-				if (PointLightComp)
-				{
-					PointLightComp->SetVisibility(false);
-				}
-			}
-		}
 	}
 	else
 	{

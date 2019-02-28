@@ -36,6 +36,27 @@ void UMissionComponent::NextMission()
 {
 	if (CurrentMissionIndex + 1 < Missions.Num())
 	{
+		if (Missions.IsValidIndex(CurrentMissionIndex) && Missions[CurrentMissionIndex].PropToClick)
+		{
+			if (!Missions[CurrentMissionIndex].PropToClick->bShouldDestroyAfterInteraction)
+			{
+				Missions[CurrentMissionIndex].PropToClick->bShouldHit = false;
+				auto Comp = Missions[CurrentMissionIndex].PropToClick->GetComponentByClass(UPointLightComponent::StaticClass());
+				if (Comp)
+				{
+					auto PointLightComp = Cast<UPointLightComponent>(Comp);
+					if (PointLightComp)
+					{
+						PointLightComp->SetVisibility(false);
+					}
+				}
+			}
+			else
+			{
+				Missions[CurrentMissionIndex].PropToClick->Destroy();
+			}
+		}
+
 		CurrentMissionIndex += 1;
 
 		if (Missions[CurrentMissionIndex].PropToClick)
